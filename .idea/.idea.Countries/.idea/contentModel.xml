@@ -24,7 +24,7 @@
               <e p="UpdateCountryCommand.cs" t="Include" />
             </e>
             <e p="Queries" t="Include">
-              <e p="GetCountriesByAlphaCodes.cs" t="Include" />
+              <e p="GetCountriesByAlphaCodesQuery.cs" t="Include" />
               <e p="GetCountriesQuery.cs" t="Include" />
               <e p="GetCountriesWithPredicateQuery.cs" t="Include" />
               <e p="GetCountryQuery.cs" t="Include" />

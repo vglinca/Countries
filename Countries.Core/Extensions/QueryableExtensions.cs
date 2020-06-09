@@ -10,29 +10,52 @@ namespace Countries.Core.Extensions
 {
 	public static class QueryableExtensions
 	{
-		public static IQueryable<TEntity> ApplyFilters<TEntity>(this IQueryable<TEntity> source, List<Filter> filters, LogicalOperator op) where TEntity : class
+		public static IQueryable<TEntity> CreatePaginatedResponse<TEntity>(this IQueryable<TEntity> source, PageArguments pageArgs, 
+			SortingArguments sortArgs, List<FilterArguments> filterArgs, LogicalOperator logicalOperator) where TEntity : class
+		{
+			source = source.ApplyFilters(filterArgs, logicalOperator);
+			source = source.ApplyPagination(pageArgs.PageIndex, pageArgs.PageSize);
+			source = source.ApplySort(sortArgs.OrderBy, sortArgs.Direction);
+			return source;
+		}
+
+		public static IQueryable<TEntity> ApplyFilters<TEntity>(this IQueryable<TEntity> source, List<FilterArguments> filters, LogicalOperator op) where TEntity : class
 		{
 			var predicate = new StringBuilder();
 			int index = 0;
 
 			for (int j = 0; j < filters.Count; j++)
 			{
-				for (int i = 0; i < filters[j].PropertyValues.Length; i++)
+				for (int i = 0; i < filters[j].FilterValues.Length; i++)
 				{
 					if (i + j != 0)
 					{
 						predicate.Append($" {op} ");
 					}
-					predicate.Append($"{filters[j].PropertyName}.{nameof(string.Contains)}(@{index++})");
+					predicate.Append($"{filters[j].FilterProperty}.{nameof(string.Contains)}(@{index++})");
 				}
 			}
 
 			if (filters.Any())
 			{
-				var propertyValues = filters.SelectMany(f => f.PropertyValues).ToArray();
+				var propertyValues = filters.SelectMany(f => f.FilterValues).ToArray();
 				source = source.Where(predicate.ToString(), propertyValues);
 			}
 
+			return source;
+		}
+
+		public static IQueryable<TEntity> ApplyPagination<TEntity>(this IQueryable<TEntity> source, int pageIndex, int pageSize) where TEntity : class
+		{
+			return source.Skip((pageIndex - 1) * pageSize).Take(pageSize);
+		}
+
+		public static IQueryable<TEntity> ApplySort<TEntity>(this IQueryable<TEntity> source, string orderBy, string direction) where TEntity : class
+		{
+			if (!string.IsNullOrWhiteSpace(orderBy))
+			{
+				source = source.OrderBy($"{orderBy} {direction}");
+			}
 			return source;
 		}
 	}

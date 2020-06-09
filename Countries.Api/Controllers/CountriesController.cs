@@ -9,6 +9,7 @@ using System.Linq.Expressions;
 using Countries.Api.Logic.Countries.Commands;
 using Countries.Api.Logic.Countries.Queries;
 using Countries.Domain.Entities;
+using Countries.Core.Infrastructure;
 
 namespace Countries.Api.Controllers
 {
@@ -18,9 +19,10 @@ namespace Countries.Api.Controllers
 		{}
 
 		[HttpGet("all")]
-		public async Task<IActionResult> GetCountries()
+		public async Task<IActionResult> GetCountries([FromQuery] PageArguments pageArgs, 
+			[FromQuery] SortingArguments sortingArgs, [FromQuery] FilterArguments filterArgs)
 		{
-			var countries = await _mediator.Send(new GetCountriesQuery());
+			var countries = await _mediator.Send(new GetCountriesQuery(pageArgs, sortingArgs, filterArgs));
 			return Ok(countries);
 		}
 
@@ -44,7 +46,7 @@ namespace Countries.Api.Controllers
 		[HttpGet("alpha")]
 		public async Task<IActionResult> GetCountriesByAlphaCodes([FromQuery] string codes)
 		{
-			var countries = await _mediator.Send(new GetCountriesByAlphaCodes(codes));
+			var countries = await _mediator.Send(new GetCountriesByAlphaCodesQuery(codes));
 			return Ok(countries);
 		}
 

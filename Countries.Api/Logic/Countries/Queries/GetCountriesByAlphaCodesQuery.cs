@@ -10,16 +10,16 @@ using MediatR;
 
 namespace Countries.Api.Logic.Countries.Queries
 {
-	public class GetCountriesByAlphaCodes : IRequest<IEnumerable<CountryModel>>
+	public class GetCountriesByAlphaCodesQuery : IRequest<IEnumerable<CountryModel>>
 	{
 		public string[] Codes { get; }
-		public GetCountriesByAlphaCodes(string codes)
+		public GetCountriesByAlphaCodesQuery(string codes)
 		{
 			Codes = codes.Split(';');
 		}
 	}
 
-	public class GetCountriesByAlphaCodesHandler : IRequestHandler<GetCountriesByAlphaCodes, IEnumerable<CountryModel>>
+	public class GetCountriesByAlphaCodesHandler : IRequestHandler<GetCountriesByAlphaCodesQuery, IEnumerable<CountryModel>>
 	{
 		private readonly IGenericRepository _countriesRepository;
 		private readonly IMapper _mapper;
@@ -29,11 +29,11 @@ namespace Countries.Api.Logic.Countries.Queries
 			_countriesRepository = countriesRepository;
 			_mapper = mapper;
 		}
-		public async Task<IEnumerable<CountryModel>> Handle(GetCountriesByAlphaCodes request, CancellationToken cancellationToken)
+		public async Task<IEnumerable<CountryModel>> Handle(GetCountriesByAlphaCodesQuery request, CancellationToken cancellationToken)
 		{
-			var filters = new List<Filter> {
-				new Filter{PropertyName = $"{nameof(Country.Alpha2Code)}", PropertyValues = request.Codes},
-				new Filter{PropertyName = $"{nameof(Country.Alpha3Code)}", PropertyValues = request.Codes},
+			var filters = new List<FilterArguments> {
+				new FilterArguments{FilterProperty = $"{nameof(Country.Alpha2Code)}", FilterValues = request.Codes},
+				new FilterArguments{FilterProperty = $"{nameof(Country.Alpha3Code)}", FilterValues = request.Codes},
 			};
 
 			var countries = await _countriesRepository.GetListUsingFilters<Country>(filters, LogicalOperator.Or);

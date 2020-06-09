@@ -39,7 +39,13 @@ namespace Countries.Core.Repository
 			return await _ctx.Set<TEntity>().ToListAsync();
 		}
 
-		public async Task<IEnumerable<TEntity>> GetListUsingFilters<TEntity>(List<Filter> filters, LogicalOperator op) where TEntity : BaseEntity
+		public async Task<IEnumerable<TEntity>> GetAllAsync<TEntity>(PageArguments pageArgs, SortingArguments sortingArgs, 
+			List<FilterArguments> filterArgs, LogicalOperator logicalOperator) where TEntity : BaseEntity
+		{
+			return await _ctx.Set<TEntity>().CreatePaginatedResponse(pageArgs, sortingArgs, filterArgs, logicalOperator).ToListAsync();
+		}
+
+		public async Task<IEnumerable<TEntity>> GetListUsingFilters<TEntity>(List<FilterArguments> filters, LogicalOperator op) where TEntity : BaseEntity
 		{
 			var entities = _ctx.Set<TEntity>().AsQueryable().ApplyFilters(filters, op);
 			return await entities.ToListAsync();
