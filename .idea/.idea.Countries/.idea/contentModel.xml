@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\Azathoth\.Rider2019.3\config\consoles\db" t="IncludeRecursive" />
+    <e p="C:\Users\Azathoth\.Rider2019.3\config\extensions" t="IncludeRecursive" />
+    <e p="C:\Users\Azathoth\.Rider2019.3\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\Azathoth\.Rider2019.3\system\resharper-host\local\Transient\ReSharperHost\v193\SolutionCaches\_Countries.-2121036552.00" t="ExcludeRecursive" />
+    <e p="D:\dev\CQRS\Countries\Countries" t="IncludeFlat">
+      <e p="Countries.Api" t="IncludeRecursive">
+        <e p="appsettings.Development.json" t="Include" />
+        <e p="appsettings.json" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Controllers" t="Include">
+          <e p="BaseController.cs" t="Include" />
+          <e p="CountriesController.cs" t="Include" />
+          <e p="RegionsController.cs" t="Include" />
+        </e>
+        <e p="Countries.Api.csproj" t="IncludeRecursive" />
+        <e p="Logic" t="Include">
+          <e p="Countries" t="Include">
+            <e p="Commands" t="Include">
+              <e p="AddCountryCommand.cs" t="Include" />
+              <e p="DeleteCountryCommand.cs" t="Include" />
+              <e p="UpdateCountryCommand.cs" t="Include" />
+            </e>
+            <e p="Queries" t="Include">
+              <e p="GetCountriesByAlphaCodes.cs" t="Include" />
+              <e p="GetCountriesQuery.cs" t="Include" />
+              <e p="GetCountriesWithPredicateQuery.cs" t="Include" />
+              <e p="GetCountryQuery.cs" t="Include" />
+            </e>
+          </e>
+          <e p="Regions" t="Include">
+            <e p="Queries" t="Include">
+              <e p="GetRegionsQuery.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="MappingConfig" t="Include">
+          <e p="WebModelsMappingProfile.cs" t="Include" />
+        </e>
+        <e p="Models" t="Include">
+          <e p="Countries" t="Include">
+            <e p="CountryForCreationModel.cs" t="Include" />
+            <e p="CountryForUpdateModel.cs" t="Include" />
+            <e p="CountryModel.cs" t="Include" />
+          </e>
+          <e p="Currencies" t="Include">
+            <e p="CurrencyCreateModel.cs" t="Include" />
+            <e p="CurrencyModel.cs" t="Include" />
+            <e p="CurrencyUpdateModel.cs" t="Include" />
+          </e>
+          <e p="Languages" t="Include">
+            <e p="LanguageCreateModel.cs" t="Include" />
+            <e p="LanguageModel.cs" t="Include" />
+            <e p="LanguageUpdateModel.cs" t="Include" />
+          </e>
+          <e p="Regions" t="Include">
+            <e p="RegionModel.cs" t="Include" />
+          </e>
+        </e>
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp3.1" t="Include">
+              <e p="Countries.Api.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Program.cs" t="Include" />
+        <e p="Properties" t="Include">
+          <e p="launchSettings.json" t="Include" />
+        </e>
+        <e p="Startup.cs" t="Include" />
+      </e>
+      <e p="Countries.Core" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Countries.Core.csproj" t="IncludeRecursive" />
+        <e p="extensions" t="Include">
+          <e p="QueryableExtensions.cs" t="Include" />
+        </e>
+        <e p="Infrastructure" t="Include">
+          <e p="Filter.cs" t="Include" />
+          <e p="LogicalOperator.cs" t="Include" />
+        </e>
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp3.1" t="Include">
+              <e p="Countries.Core.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Repository" t="Include">
+          <e p="GenericRepository.cs" t="Include" />
+          <e p="Interfaces" t="Include">
+            <e p="IGenericRepository.cs" t="Include" />
+          </e>
+        </e>
+      </e>
+      <e p="Countries.DAL" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Configuration" t="Include">
+          <e p="ContinentConfiguration.cs" t="Include" />
+          <e p="CountriesConfiguration.cs" t="Include" />
+          <e p="CountryLanguageConfiguration.cs" t="Include" />
+          <e p="CurrencyConfiguration.cs" t="Include" />
+          <e p="LanguageConfiguration.cs" t="Include" />
+        </e>
+        <e p="Countries.DAL.csproj" t="IncludeRecursive" />
+        <e p="CountriesDbContext.cs" t="Include" />
+        <e p="Migrations" t="Include">
+          <e p="20200609121548_Initial_Migration.cs" t="Include" />
+          <e p="20200609121548_Initial_Migration.Designer.cs" t="Include" />
+          <e p="CountriesDbContextModelSnapshot.cs" t="Include" />
+        </e>
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp3.1" t="Include">
+              <e p="Countries.DAL.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+      </e>
+      <e p="Countries.Domain" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Countries.Domain.csproj" t="IncludeRecursive" />
+        <e p="Entities" t="Include">
+          <e p="BaseEntity.cs" t="Include" />
+          <e p="Country.cs" t="Include" />
+          <e p="CountryLanguage.cs" t="Include" />
+          <e p="Currency.cs" t="Include" />
+          <e p="Language.cs" t="Include" />
+          <e p="Region.cs" t="Include" />
+        </e>
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp3.1" t="Include">
+              <e p="Countries.Domain.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+      </e>
+      <e p="Countries.sln" t="IncludeFlat" />
+      <e p="packages" t="ExcludeRecursive" />
+    </e>
+  </component>
+</project>
