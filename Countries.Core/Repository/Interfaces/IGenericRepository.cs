@@ -17,7 +17,9 @@ namespace Countries.Core.Repository.Interfaces
 		Task<IEnumerable<TEntity>> GetListUsingFilters<TEntity>(List<FilterArguments> filters, LogicalOperator op) where TEntity : BaseEntity;
 		Task<TEntity> GetOneAsync<TEntity>(long id) where TEntity : BaseEntity;
 		Task<TEntity> CreateAsync<TEntity>(TEntity entity) where TEntity : BaseEntity;
+		Task<IEnumerable<long>> CreateAsync<TEntity>(IEnumerable<TEntity> entities) where TEntity : BaseEntity;
 		Task UpdateAsync<TEntity>(TEntity entity) where TEntity : BaseEntity;
 		Task DeleteAsync<TEntity>(long id) where TEntity : BaseEntity;
+		Task<bool> ExistsAsync<TEntity>(long id) where TEntity : BaseEntity;
 	}
 }

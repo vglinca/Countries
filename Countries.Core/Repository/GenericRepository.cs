@@ -27,11 +27,24 @@ namespace Countries.Core.Repository
 			return entity;
 		}
 
+		public async Task<IEnumerable<long>> CreateAsync<TEntity>(IEnumerable<TEntity> entities) where TEntity : BaseEntity
+		{
+			await _ctx.Set<TEntity>().AddRangeAsync(entities);
+			await _ctx.SaveChangesAsync();
+			return entities.Select(e => e.Id);
+		}
+
 		public async Task DeleteAsync<TEntity>(long id) where TEntity : BaseEntity
 		{
 			var entity = await _ctx.Set<TEntity>().FindAsync(id);
 			_ctx.Set<TEntity>().Remove(entity);
 			await _ctx.SaveChangesAsync();
+		}
+
+		public async Task<bool> ExistsAsync<TEntity>(long id) where TEntity : BaseEntity
+		{
+			var entity = await _ctx.Set<TEntity>().FirstOrDefaultAsync(e => e.Id == id);
+			return entity != null;
 		}
 
 		public async Task<IEnumerable<TEntity>> GetAllAsync<TEntity>() where TEntity : BaseEntity

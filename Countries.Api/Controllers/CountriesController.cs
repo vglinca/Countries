@@ -85,7 +85,14 @@ namespace Countries.Api.Controllers
 		public async Task<IActionResult> AddCountry([FromBody] CountryForCreationModel model)
 		{
 			var id = await _mediator.Send(new AddCountryCommand(model));
-			return CreatedAtRoute(nameof(GetCountry), new { id}, model);
+			return CreatedAtAction(nameof(GetCountry), new { id}, model);
+		}
+
+		[HttpPost("collection")]
+		public async Task<IActionResult> AddCountries([FromBody] List<CountryForCreationModel> models)
+		{
+			await _mediator.Send(new AddCountriesCollectionCommand(models));
+			return Ok();
 		}
 
 		[HttpDelete("{id}")]

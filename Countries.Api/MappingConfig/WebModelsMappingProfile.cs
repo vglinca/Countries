@@ -19,15 +19,19 @@ namespace Countries.Api.MappingConfig
 			CreateMap<CurrencyCreateModel, Currency>();
 			CreateMap<CurrencyUpdateModel, Currency>();
 
-			CreateMap<Language, LanguageModel>();
-			CreateMap<LanguageCreateModel, Language>();
+			CreateMap<Language, LanguageModel>()
+				.ForMember(dest => dest.Id, opt => opt.Ignore());
+			CreateMap<LanguageCreateModel, Language>()
+				.ForMember(dest => dest.Id, opt => opt.Ignore());
 			CreateMap<LanguageUpdateModel, Language>();
 
 			CreateMap<Country, CountryModel>()
 				.ForMember(dest => dest.Region, opt => opt.MapFrom(src => src.Region.Name))
 				.ForMember(dest => dest.Languages, opt => opt.MapFrom(
 					src => src.CountryLanguages.Select(cl => cl.Language)));
-			CreateMap<CountryForCreationModel, Country>();
+			CreateMap<CountryForCreationModel, Country>()
+				.ForMember(dest => dest.CountryLanguages, opt => opt.Ignore())
+				.ForMember(dest => dest.Currency, opt => opt.Ignore());
 			CreateMap<CountryForUpdateModel, Country>();
 
 			CreateMap<Region, RegionModel>();
