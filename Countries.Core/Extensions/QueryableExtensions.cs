@@ -15,16 +15,19 @@ namespace Countries.Core.Extensions
 			SortingArguments sortArgs, List<FilterArguments> filterArgs, LogicalOperator logicalOperator) where TEntity : class
 		{
 			source = source.ApplyFilters(filterArgs, logicalOperator);
+			var total = await source.CountAsync();
 			source = source.ApplyPagination(pageArgs.PageIndex, pageArgs.PageSize);
 			source = source.ApplySort(sortArgs.OrderBy, sortArgs.Direction);
-			var totalItems = await source.CountAsync();
-			var entities = await source.ToListAsync();
+			var listResult = await source.ToListAsync();
 			return new PagedResponse<TEntity>
 			{
-				PageIndex = pageArgs.PageIndex,
-				PageSize = pageArgs.PageSize,
-				TotalItems = totalItems,
-				Items = entities
+				PageData = new PageData
+				{
+					PageIndex = pageArgs.PageIndex,
+					PageSize = pageArgs.PageSize,
+					TotalItems = total
+				},
+				Items = listResult
 			};
 		}
 

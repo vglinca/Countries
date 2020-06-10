@@ -10,6 +10,8 @@ using Countries.Api.Logic.Countries.Commands;
 using Countries.Api.Logic.Countries.Queries;
 using Countries.Domain.Entities;
 using Countries.Core.Infrastructure;
+using System.Text.Json;
+using System.Text.Encodings.Web;
 
 namespace Countries.Api.Controllers
 {
@@ -22,8 +24,11 @@ namespace Countries.Api.Controllers
 		public async Task<IActionResult> GetCountries([FromQuery] PageArguments pageArgs, 
 			[FromQuery] SortingArguments sortingArgs, [FromQuery] FilterArguments filterArgs)
 		{
-			var countries = await _mediator.Send(new GetCountriesQuery(pageArgs, sortingArgs, filterArgs));
-			return Ok(countries);
+			var pagedCountries = await _mediator.Send(new GetCountriesQuery(pageArgs, sortingArgs, filterArgs));
+			Response.Headers.Add(Constants.XPagination, JsonSerializer.Serialize(pagedCountries.PageData,
+				new JsonSerializerOptions { Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping }));
+			
+			return Ok(pagedCountries.Items);
 		}
 
 		[HttpGet("{id}")]
