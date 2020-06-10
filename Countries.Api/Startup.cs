@@ -17,6 +17,7 @@ using AutoMapper;
 using Countries.Core.Repository.Interfaces;
 using Countries.Core.Repository;
 using Countries.Api.MappingConfig;
+using Countries.Api.Utils;
 
 namespace Countries.Api
 {
@@ -37,8 +38,12 @@ namespace Countries.Api
 			
 			services.AddControllers();
 
+			var hostUriSection = Configuration.GetSection("HostUri");
+			services.Configure<HostUri>(hostUriSection);
+
 			services.AddAutoMapper(typeof(WebModelsMappingProfile).Assembly);
 			services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
+			services.AddHttpContextAccessor();
 
 			services.AddScoped<IGenericRepository, GenericRepository>();
 		}

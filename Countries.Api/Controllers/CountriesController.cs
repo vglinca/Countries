@@ -12,13 +12,18 @@ using Countries.Domain.Entities;
 using Countries.Core.Infrastructure;
 using System.Text.Json;
 using System.Text.Encodings.Web;
+using System.Net;
+using Microsoft.AspNetCore.Http;
+using Countries.Api.Utils;
+using Microsoft.Extensions.Options;
 
 namespace Countries.Api.Controllers
 {
 	public class CountriesController : BaseController
 	{
 		public CountriesController(IMediator mediator) : base(mediator)
-		{}
+		{
+		}
 
 		[HttpGet("all")]
 		public async Task<IActionResult> GetCountries([FromQuery] PageArguments pageArgs, 
@@ -27,7 +32,7 @@ namespace Countries.Api.Controllers
 			var pagedCountries = await _mediator.Send(new GetCountriesQuery(pageArgs, sortingArgs, filterArgs));
 			Response.Headers.Add(Constants.XPagination, JsonSerializer.Serialize(pagedCountries.PageData,
 				new JsonSerializerOptions { Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping }));
-			
+
 			return Ok(pagedCountries.Items);
 		}
 
