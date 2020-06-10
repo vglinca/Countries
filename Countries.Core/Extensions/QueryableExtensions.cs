@@ -1,4 +1,5 @@
 ﻿using Countries.Core.Infrastructure;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,13 +11,21 @@ namespace Countries.Core.Extensions
 {
 	public static class QueryableExtensions
 	{
-		public static IQueryable<TEntity> CreatePaginatedResponse<TEntity>(this IQueryable<TEntity> source, PageArguments pageArgs, 
+		public static async Task<PagedResponse<TEntity>> CreatePaginatedResponse<TEntity>(this IQueryable<TEntity> source, PageArguments pageArgs, 
 			SortingArguments sortArgs, List<FilterArguments> filterArgs, LogicalOperator logicalOperator) where TEntity : class
 		{
 			source = source.ApplyFilters(filterArgs, logicalOperator);
 			source = source.ApplyPagination(pageArgs.PageIndex, pageArgs.PageSize);
 			source = source.ApplySort(sortArgs.OrderBy, sortArgs.Direction);
-			return source;
+			var totalItems = await source.CountAsync();
+			var entities = await source.ToListAsync();
+			return new PagedResponse<TEntity>
+			{
+				PageIndex = pageArgs.PageIndex,
+				PageSize = pageArgs.PageSize,
+				TotalItems = totalItems,
+				Items = entities
+			};
 		}
 
 		public static IQueryable<TEntity> ApplyFilters<TEntity>(this IQueryable<TEntity> source, List<FilterArguments> filters, LogicalOperator op) where TEntity : class

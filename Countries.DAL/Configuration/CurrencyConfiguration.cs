@@ -13,6 +13,10 @@ namespace Countries.DAL.Configuration
 		{
 			builder.Property(c => c.Code).HasMaxLength(5).IsRequired();
 			builder.Property(c => c.Name).HasMaxLength(30).IsRequired();
+
+			builder.HasIndex(c => c.Code)
+				.HasName("uq_currency_code")
+				.IsUnique();
 		}
 	}
 }

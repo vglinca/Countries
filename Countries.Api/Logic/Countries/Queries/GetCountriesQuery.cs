@@ -37,9 +37,9 @@ namespace Countries.Api.Logic.Countries.Queries
 		public async Task<IEnumerable<CountryModel>> Handle(GetCountriesQuery request, CancellationToken cancellationToken)
 		{
 			var filterArgs = new List<FilterArguments> { request.FilterArgs };
-			var countries = await _countriesRepository.GetAllAsync<Country>(request.PageArgs, 
+			var pagedCountries = await _countriesRepository.GetAllAsync<Country>(request.PageArgs, 
 				request.SortingArgs, filterArgs, LogicalOperator.Or);
-			var models = _mapper.Map<List<CountryModel>>(countries);
+			var models = _mapper.Map<List<CountryModel>>(pagedCountries.Items);
 			return models;
 		}
 	}

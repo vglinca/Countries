@@ -34,7 +34,7 @@ namespace Countries.Api.Logic.Countries.Commands
 			var currency = _mapper.Map<Currency>(request.Model.Currency);
 			if (request.Model.Currency.Id == null)
 			{
-				await _repository.CreateAsync(currency);
+				_ = await _repository.CreateAsync(currency);
 			}
 			var country = _mapper.Map<Country>(request.Model);
 			country.CurrencyId = currency.Id;
@@ -56,7 +56,7 @@ namespace Countries.Api.Logic.Countries.Commands
 			foreach (var langId in langIds)
 			{
 				var countryLanguage = new CountryLanguage { CountryId = createdEntity.Id, LanguageId = langId };
-				await _repository.CreateAsync(countryLanguage);
+				_ = await _repository.CreateAsync(countryLanguage);
 			}
 
 			return createdEntity.Id;

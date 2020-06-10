@@ -14,6 +14,7 @@ namespace Countries.DAL.Configuration
 			builder.Property(c => c.Id).IsRequired();
 			builder.Property(c => c.Name).HasMaxLength(75);
 			builder.Property(c => c.Capital).HasMaxLength(50);
+			builder.Property(c => c.NumericCode).HasMaxLength(3).IsRequired();
 			builder.HasOne(c => c.Currency)
 				.WithMany(c => c.Countries)
 				.HasForeignKey(c => c.CurrencyId)

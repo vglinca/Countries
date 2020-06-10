@@ -105,7 +105,7 @@ namespace Countries.DAL
 					Alpha3Code = "EST",
 					RegionId = 1, 
 					CurrencyId = 1, 
-					NumericCode = 233, 
+					NumericCode = "233", 
 					Population = 1315944, 
 					Area = 45227.0,
 					SubRegion = "Northern Europe",
@@ -119,7 +119,7 @@ namespace Countries.DAL
 					Alpha3Code = "ALB",
 					RegionId = 1,
 					CurrencyId = 2,
-					NumericCode = 008,
+					NumericCode = "008",
 					Population = 2886026,
 					Area = 28748.0,
 					SubRegion = "Southern Europe"
@@ -133,7 +133,7 @@ namespace Countries.DAL
 					Alpha3Code = "CZE",
 					RegionId = 1,
 					CurrencyId = 3,
-					NumericCode = 203,
+					NumericCode = "203",
 					Population = 10558524,
 					Area = 78865.0,
 					SubRegion = "Western Europe"
@@ -147,7 +147,7 @@ namespace Countries.DAL
 					Alpha3Code = "DNK",
 					RegionId = 1,
 					CurrencyId = 4,
-					NumericCode = 234,
+					NumericCode = "234",
 					Population = 49376,
 					Area = 1393.0,
 					SubRegion = "Northern Europe"
@@ -161,7 +161,7 @@ namespace Countries.DAL
 					Alpha3Code = "DEU",
 					RegionId = 1,
 					CurrencyId = 1,
-					NumericCode = 276,
+					NumericCode = "276",
 					Population = 81770900,
 					Area = 357114.0,
 					SubRegion = "Western Europe"
@@ -175,7 +175,7 @@ namespace Countries.DAL
 					Alpha3Code = "ISL",
 					RegionId = 1,
 					CurrencyId = 5,
-					NumericCode = 352,
+					NumericCode = "352",
 					Population = 334300,
 					Area = 103000.0,
 					SubRegion = "Northern Europe"
@@ -189,7 +189,7 @@ namespace Countries.DAL
 					Alpha3Code = "JPN",
 					RegionId = 2,
 					CurrencyId = 6,
-					NumericCode = 392,
+					NumericCode = "392",
 					Population = 126960000,
 					Area = 377930.0,
 					SubRegion = "Eastern Asia"
@@ -203,7 +203,7 @@ namespace Countries.DAL
 					Alpha3Code = "JOR",
 					RegionId = 2,
 					CurrencyId = 7,
-					NumericCode = 400,
+					NumericCode = "400",
 					Population = 9531712,
 					Area = 89342.0,
 					SubRegion = "Western Asia"
@@ -217,7 +217,7 @@ namespace Countries.DAL
 					Alpha3Code = "KWT",
 					RegionId = 2,
 					CurrencyId = 8,
-					NumericCode = 414,
+					NumericCode = "414",
 					Population = 4183658,
 					Area = 17818.0,
 					SubRegion = "Western Asia"
@@ -231,7 +231,7 @@ namespace Countries.DAL
 					Alpha3Code = "MYS",
 					RegionId = 2,
 					CurrencyId = 9,
-					NumericCode = 458,
+					NumericCode = "458",
 					Population = 31405416,
 					Area = 45227.0,
 					SubRegion = "South-Eastern Asia"
@@ -245,7 +245,7 @@ namespace Countries.DAL
 					Alpha3Code = "CAN",
 					RegionId = 5,
 					CurrencyId = 10,
-					NumericCode = 124,
+					NumericCode = "124",
 					Population = 36155487,
 					Area = 9984670.0,
 					SubRegion = "North America"
@@ -259,7 +259,7 @@ namespace Countries.DAL
 					Alpha3Code = "ARG",
 					RegionId = 5,
 					CurrencyId = 11,
-					NumericCode = 414,
+					NumericCode = "414",
 					Population = 43590400,
 					Area = 2780400.0,
 					SubRegion = "South America"
@@ -273,7 +273,7 @@ namespace Countries.DAL
 					Alpha3Code = "BOL",
 					RegionId = 5,
 					CurrencyId = 12,
-					NumericCode = 068,
+					NumericCode = "068",
 					Population = 10985059,
 					Area = 1098581.0,
 					SubRegion = "South America"

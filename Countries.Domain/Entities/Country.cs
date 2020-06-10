@@ -9,7 +9,7 @@ namespace Countries.Domain.Entities
 		public string Name { get; set; }
 		public string Capital { get; set; }
 		public double Area { get; set; }
-		public int NumericCode { get; set; }
+		public string NumericCode { get; set; }
 		public int Population { get; set; }
 		public long RegionId { get; set; }
 		public virtual Region Region { get; set; }

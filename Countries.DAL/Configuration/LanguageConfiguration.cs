@@ -14,6 +14,10 @@ namespace Countries.DAL.Configuration
 			builder.Property(l => l.Name).HasMaxLength(40).IsRequired();
 			builder.Property(l => l.Iso639_1).HasMaxLength(2);
 			builder.Property(l => l.Iso639_2).HasMaxLength(3);
+
+			builder.HasIndex(l => new { l.Iso639_1, l.Iso639_2 })
+				.HasName("uq_iso_key")
+				.IsUnique();
 		}
 	}
 }

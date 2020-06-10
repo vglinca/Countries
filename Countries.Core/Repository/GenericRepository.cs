@@ -52,10 +52,10 @@ namespace Countries.Core.Repository
 			return await _ctx.Set<TEntity>().ToListAsync();
 		}
 
-		public async Task<IEnumerable<TEntity>> GetAllAsync<TEntity>(PageArguments pageArgs, SortingArguments sortingArgs, 
+		public async Task<PagedResponse<TEntity>> GetAllAsync<TEntity>(PageArguments pageArgs, SortingArguments sortingArgs, 
 			List<FilterArguments> filterArgs, LogicalOperator logicalOperator) where TEntity : BaseEntity
 		{
-			return await _ctx.Set<TEntity>().CreatePaginatedResponse(pageArgs, sortingArgs, filterArgs, logicalOperator).ToListAsync();
+			return await _ctx.Set<TEntity>().CreatePaginatedResponse(pageArgs, sortingArgs, filterArgs, logicalOperator);
 		}
 
 		public async Task<IEnumerable<TEntity>> GetListUsingFilters<TEntity>(List<FilterArguments> filters, LogicalOperator op) where TEntity : BaseEntity

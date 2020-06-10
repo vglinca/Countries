@@ -11,7 +11,7 @@ namespace Countries.Core.Repository.Interfaces
 	public interface IGenericRepository
 	{
 		Task<IEnumerable<TEntity>> GetAllAsync<TEntity>() where TEntity : BaseEntity;
-		Task<IEnumerable<TEntity>> GetAllAsync<TEntity>(PageArguments pageArgs, SortingArguments sortingArgs, List<FilterArguments> filterArgs, LogicalOperator logicalOperator) 
+		Task<PagedResponse<TEntity>> GetAllAsync<TEntity>(PageArguments pageArgs, SortingArguments sortingArgs, List<FilterArguments> filterArgs, LogicalOperator logicalOperator) 
 			where TEntity : BaseEntity;
 		Task<IEnumerable<TEntity>> GetListWithPredicateAsync<TEntity>(List<Expression<Func<TEntity, bool>>> predicates) where TEntity : BaseEntity;
 		Task<IEnumerable<TEntity>> GetListUsingFilters<TEntity>(List<FilterArguments> filters, LogicalOperator op) where TEntity : BaseEntity;
