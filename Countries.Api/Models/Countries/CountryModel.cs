@@ -1,9 +1,12 @@
 ﻿using Countries.Api.Models.Currencies;
 using Countries.Api.Models.Languages;
 using Countries.Api.Models.Links;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Countries.Api.Models.Countries

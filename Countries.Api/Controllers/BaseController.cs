@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Countries.Api.Utils;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ namespace Countries.Api.Controllers
 {
 	[ApiController]
 	[Route("api/[controller]")]
+	[Produces(ApiConstants.ApplicationJson, ApiConstants.ApplicationHateoasJson)]
 	public class BaseController : ControllerBase
 	{
 		protected readonly IMediator _mediator;

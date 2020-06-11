@@ -16,6 +16,7 @@ namespace Countries.Api.Controllers
 		public RegionsController(IMediator mediator) : base(mediator)
 		{}
 
+		[HttpGet("regions")]
 		public async Task<IActionResult> GetRegions()
 		{
 			var regions = await _mediator.Send(new GetRegionsQuery());

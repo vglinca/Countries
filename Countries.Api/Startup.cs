@@ -20,6 +20,8 @@ using Countries.Api.MappingConfig;
 using Countries.Api.Utils;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Countries.Api.Utils.Interfaces;
+using Newtonsoft.Json.Serialization;
+using Countries.Api.Extensions;
 
 namespace Countries.Api
 {
@@ -37,7 +39,7 @@ namespace Countries.Api
 		{
 			var connectionString = Configuration["ConnectionStrings:CountriesDbConnString"];
 			services.AddDbContext<CountriesDbContext>(opt => opt.UseSqlServer(connectionString));
-			
+
 			services.AddControllers();
 
 			var hostUriSection = Configuration.GetSection("HostUri");
@@ -50,18 +52,22 @@ namespace Countries.Api
 
 			services.AddScoped<IGenericRepository, GenericRepository>();
 			services.AddTransient<ILinkProcessor, LinkProcessor>();
+
+			services.ConfigureSwagger();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 		{
-			if (env.IsDevelopment())
-			{
-				app.UseDeveloperExceptionPage();
-			}
-
+			app.UseExeptionHandling(env);
+			app.UseExceptionMiddleware();
 			app.UseRouting();
-
+			app.UseSwagger();
+			app.UseSwaggerUI(options =>
+			{
+				options.SwaggerEndpoint("/swagger/CountriesOpenApi/swagger.json", ApiConstants.SwaggerDocTitle);
+				options.RoutePrefix = "";
+			});
 			app.UseEndpoints(endpoints =>
 			{
 				endpoints.MapControllers();

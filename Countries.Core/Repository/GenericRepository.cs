@@ -1,4 +1,5 @@
-﻿using Countries.Core.Extensions;
+﻿using Countries.Core.Exceptions;
+using Countries.Core.Extensions;
 using Countries.Core.Infrastructure;
 using Countries.Core.Repository.Interfaces;
 using Countries.DAL;
@@ -37,6 +38,10 @@ namespace Countries.Core.Repository
 		public async Task DeleteAsync<TEntity>(long id) where TEntity : BaseEntity
 		{
 			var entity = await _ctx.Set<TEntity>().FindAsync(id);
+			if(entity == null)
+			{
+				throw new NotFoundException($"{typeof(TEntity).ToString().Split('.').Last()} with id {id} not found.");
+			}
 			_ctx.Set<TEntity>().Remove(entity);
 			await _ctx.SaveChangesAsync();
 		}
@@ -44,6 +49,10 @@ namespace Countries.Core.Repository
 		public async Task<bool> ExistsAsync<TEntity>(long id) where TEntity : BaseEntity
 		{
 			var entity = await _ctx.Set<TEntity>().FirstOrDefaultAsync(e => e.Id == id);
+			if (entity == null)
+			{
+				throw new NotFoundException($"{typeof(TEntity).ToString().Split('.').Last()} with id {id} not found.");
+			}
 			return entity != null;
 		}
 
@@ -55,7 +64,14 @@ namespace Countries.Core.Repository
 		public async Task<PagedResponse<TEntity>> GetAllAsync<TEntity>(PageArguments pageArgs, SortingArguments sortingArgs, 
 			List<FilterArguments> filterArgs, LogicalOperator logicalOperator) where TEntity : BaseEntity
 		{
-			return await _ctx.Set<TEntity>().CreatePaginatedResponse(pageArgs, sortingArgs, filterArgs, logicalOperator);
+			try
+			{
+				return await _ctx.Set<TEntity>().CreatePaginatedResponse(pageArgs, sortingArgs, filterArgs, logicalOperator);
+			}
+			catch (Exception e)
+			{
+				throw new BadRequestException("Some of the query params are invalid.", e);
+			}
 		}
 
 		public async Task<IEnumerable<TEntity>> GetListUsingFilters<TEntity>(List<FilterArguments> filters, LogicalOperator op) where TEntity : BaseEntity
@@ -78,11 +94,19 @@ namespace Countries.Core.Repository
 		public async Task<TEntity> GetOneAsync<TEntity>(long id) where TEntity : BaseEntity
 		{
 			var entity = await _ctx.Set<TEntity>().FirstOrDefaultAsync(e => e.Id == id);
+			if (entity == null)
+			{
+				throw new NotFoundException($"{typeof(TEntity).ToString().Split('.').Last()} with id {id} not found.");
+			}
 			return entity;
 		}
 
 		public async Task UpdateAsync<TEntity>(TEntity entity) where TEntity : BaseEntity
 		{
+			if(entity == null)
+			{
+				throw new BadRequestException($"Provided {typeof(TEntity).ToString().Split('.').Last()} is null.");
+			}
 			_ctx.Entry(entity).State = EntityState.Modified;
 			await _ctx.SaveChangesAsync();
 		}
