@@ -18,6 +18,8 @@ using Countries.Core.Repository.Interfaces;
 using Countries.Core.Repository;
 using Countries.Api.MappingConfig;
 using Countries.Api.Utils;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Countries.Api.Utils.Interfaces;
 
 namespace Countries.Api
 {
@@ -43,9 +45,11 @@ namespace Countries.Api
 
 			services.AddAutoMapper(typeof(WebModelsMappingProfile).Assembly);
 			services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
+			services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
 			services.AddHttpContextAccessor();
 
 			services.AddScoped<IGenericRepository, GenericRepository>();
+			services.AddTransient<ILinkProcessor, LinkProcessor>();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

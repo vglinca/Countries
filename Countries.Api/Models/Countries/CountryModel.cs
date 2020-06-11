@@ -1,5 +1,6 @@
 ﻿using Countries.Api.Models.Currencies;
 using Countries.Api.Models.Languages;
+using Countries.Api.Models.Links;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,5 +22,6 @@ namespace Countries.Api.Models.Countries
 		public List<LanguageModel> Languages { get; set; }
 		public string Alpha2Code { get; set; }
 		public string Alpha3Code { get; set; }
+		public IEnumerable<LinkModel> Links { get; set; }
 	}
 }

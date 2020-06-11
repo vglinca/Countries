@@ -5,10 +5,12 @@ using AutoMapper;
 using Countries.Api.Models.Countries;
 using Countries.Api.Models.Links;
 using Countries.Api.Utils;
+using Countries.Api.Utils.Interfaces;
 using Countries.Core.Infrastructure;
 using Countries.Core.Repository.Interfaces;
 using Countries.Domain.Entities;
 using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
 namespace Countries.Api.Logic.Countries.Queries
@@ -31,13 +33,11 @@ namespace Countries.Api.Logic.Countries.Queries
 	{
 		private readonly IGenericRepository _countriesRepository;
 		private readonly IMapper _mapper;
-		private readonly HostUri _url;
 
-		public GetCountriesQueryHandler(IGenericRepository countriesRepository, IMapper mapper, IOptions<HostUri> uriOptions)
+		public GetCountriesQueryHandler(IGenericRepository countriesRepository, IMapper mapper)
 		{
 			_countriesRepository = countriesRepository;
 			_mapper = mapper;
-			_url = uriOptions.Value;
 		}
 		public async Task<PagedResponse<CountryModel>> Handle(GetCountriesQuery request, CancellationToken cancellationToken)
 		{
@@ -50,14 +50,8 @@ namespace Countries.Api.Logic.Countries.Queries
 				PageData = pagedCountries.PageData,
 				Items = models
 			};
-			return pagedResponse;
-		}
 
-		private IEnumerable<LinkModel> CreateLinksForCountry(PageArguments pageData, SortingArguments sortArgs, FilterArguments filter)
-		{
-			var links = new List<LinkModel>();
-			links.Add(new LinkModel { Href = $"{_url}/api/countries/all?pageIndex={pageData.PageIndex}&pageSize={pageData.PageSize}&orderBy={sortArgs.OrderBy}&direction={sortArgs.Direction}" });
-			return links;
+			return pagedResponse;
 		}
 	}
 }

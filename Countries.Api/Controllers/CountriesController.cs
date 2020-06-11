@@ -16,13 +16,20 @@ using System.Net;
 using Microsoft.AspNetCore.Http;
 using Countries.Api.Utils;
 using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Mvc.Routing;
+using System.Web;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Countries.Api.Utils.Interfaces;
 
 namespace Countries.Api.Controllers
 {
 	public class CountriesController : BaseController
 	{
-		public CountriesController(IMediator mediator) : base(mediator)
+		private readonly ILinkProcessor _processor;
+
+		public CountriesController(IMediator mediator, ILinkProcessor processor) : base(mediator)
 		{
+			_processor = processor;
 		}
 
 		[HttpGet("all")]
@@ -30,10 +37,13 @@ namespace Countries.Api.Controllers
 			[FromQuery] SortingArguments sortingArgs, [FromQuery] FilterArguments filterArgs)
 		{
 			var pagedCountries = await _mediator.Send(new GetCountriesQuery(pageArgs, sortingArgs, filterArgs));
+			
 			Response.Headers.Add(Constants.XPagination, JsonSerializer.Serialize(pagedCountries.PageData,
 				new JsonSerializerOptions { Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping }));
-
-			return Ok(pagedCountries.Items);
+			
+			var links = LinksCreator.CreateLinksForCountries(pagedCountries.PageData, sortingArgs, filterArgs, Request.Path, _processor);
+			
+			return Ok(new { pagedCountries.Items, links });
 		}
 
 		[HttpGet("{id}")]
