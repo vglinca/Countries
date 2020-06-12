@@ -16,7 +16,7 @@ namespace Countries.Api.Utils
 		{
 			_hostUri = options.Value;
 		}
-		public string Process(ResourceParameters resourceParameters)
+		public string ProcessLinksForCollection(ResourceParameters resourceParameters)
 		{
 			return resourceParameters.LinkType switch
 			{

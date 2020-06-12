@@ -18,7 +18,7 @@ namespace Countries.Api.Utils
 			{
 				links.Add(new LinkModel
 				{
-					Href = processor.Process(new ResourceParameters
+					Href = processor.ProcessLinksForCollection(new ResourceParameters
 					{
 						PageArgs = new PageArguments
 						{
@@ -39,7 +39,7 @@ namespace Countries.Api.Utils
 			{
 				links.Add(new LinkModel
 				{
-					Href = processor.Process(new ResourceParameters
+					Href = processor.ProcessLinksForCollection(new ResourceParameters
 					{
 						PageArgs = new PageArguments
 						{
@@ -58,7 +58,7 @@ namespace Countries.Api.Utils
 
 			links.Add(new LinkModel
 			{
-				Href = processor.Process(new ResourceParameters
+				Href = processor.ProcessLinksForCollection(new ResourceParameters
 				{
 					PageArgs = new PageArguments
 					{

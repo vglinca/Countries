@@ -26,12 +26,9 @@ namespace Countries.Api.Controllers
 {
 	public class CountriesController : BaseController
 	{
-		private readonly ILinkProcessor _processor;
-
-		public CountriesController(IMediator mediator, ILinkProcessor processor) : base(mediator)
-		{
-			_processor = processor;
-		}
+		
+		public CountriesController(IMediator mediator, ILinkProcessor processor) : base(mediator, processor)
+		{}
 
 		[HttpGet("all")]
 		public async Task<ActionResult<IEnumerable<CountryModel>>> GetCountries([FromQuery] PageArguments pageArgs, 
@@ -42,15 +39,39 @@ namespace Countries.Api.Controllers
 			{
 				return BadRequest();
 			}
-			var pagedCountries = await _mediator.Send(new GetCountriesQuery(pageArgs, sortingArgs, filterArgs));
+			var pagedCountries = await _mediator.Send(new GetCountriesQuery(pageArgs, sortingArgs, new List<FilterArguments> { filterArgs }));
 			
-			Response.Headers.Add(Constants.XPagination, JsonSerializer.Serialize(pagedCountries.PageData, 
-				new JsonSerializerOptions { Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping }));
+			var links = DecorateResponse(pagedCountries.PageData, sortingArgs, filterArgs, Request.Path);
 			
-			var links = LinksCreator.CreateLinksForCountries(pagedCountries.PageData, sortingArgs, filterArgs, Request.Path, _processor);
-			
-			return parsedMediaType.MediaType == ApiConstants.ApplicationHateoasJson ? 
+			return parsedMediaType.MediaType.Contains(ApiConstants.HateoasKeyword) ? 
 				Ok(new { pagedCountries.Items, links }) : Ok(pagedCountries.Items);
+		}
+
+		[HttpGet("currency/{currency}")]
+		public async Task<ActionResult<IEnumerable<CountryModel>>> GetCountriesByCurrency(string currency,
+			[FromQuery] PageArguments pageArgs, [FromQuery] SortingArguments sortingArgs,
+			[FromHeader(Name = ApiConstants.AcceptHeader)] string mediaType)
+		{
+			var pagedCountries = await _mediator.Send(new GetCountriesQuery(pageArgs, sortingArgs, new List<FilterArguments>
+			{
+				new FilterArguments { FilterProperty = "Currency.Code", FilterValues = new string[] { currency } }
+			}));
+
+			return Ok(pagedCountries.Items);
+		}
+
+		[HttpGet("alpha")]
+		public async Task<ActionResult<IEnumerable<CountryModel>>> GetCountriesByAlphaCodes([FromQuery] string codes,
+			[FromQuery] PageArguments pageArgs, [FromQuery] SortingArguments sortingArgs)
+		{
+			var filterArgs = new List<FilterArguments>
+			{
+				new FilterArguments { FilterProperty = nameof(Country.Alpha2Code), FilterValues = codes.Split(';') },
+				new FilterArguments { FilterProperty = nameof(Country.Alpha3Code), FilterValues = codes.Split(';') }
+			};
+
+			var pagedCountries = await _mediator.Send(new GetCountriesQuery(pageArgs, sortingArgs, filterArgs));
+			return Ok(pagedCountries.Items);
 		}
 
 		[HttpGet("{id}")]
@@ -61,30 +82,15 @@ namespace Countries.Api.Controllers
 		}
 
 		[HttpGet("alpha/{code}")]
-		public async Task<ActionResult<CountryModel>> GetCountryByAlphaCode(string code)
+		public async Task<ActionResult<CountryModel>> GetCountryByAlphaCode(string code,
+			[FromQuery] PageArguments pageArgs, [FromQuery] SortingArguments sortingArgs)
 		{
 			Expression<Func<Country, bool>> expression = c => c.Alpha2Code == code || c.Alpha3Code == code;
 			var predicates = new List<Expression<Func<Country, bool>>>();
 			predicates.Add(expression);
-			var countries = await _mediator.Send(new GetCountriesWithPredicateQuery(predicates));
-			return Ok(countries);
-		}
+			var country = await _mediator.Send(new GetCountriesWithPredicateQuery(predicates));
 
-		[HttpGet("alpha")]
-		public async Task<ActionResult<IEnumerable<CountryModel>>> GetCountriesByAlphaCodes([FromQuery] string codes)
-		{
-			var countries = await _mediator.Send(new GetCountriesByAlphaCodesQuery(codes));
-			return Ok(countries);
-		}
-
-		[HttpGet("currency/{currency}")]
-		public async Task<ActionResult<IEnumerable<CountryModel>>> GetCountriesByCurrency(string currency)
-		{
-			Expression<Func<Country, bool>> expression = c => c.Currency.Code == currency;
-			var predicates = new List<Expression<Func<Country, bool>>>();
-			predicates.Add(expression);
-			var countries = await _mediator.Send(new GetCountriesWithPredicateQuery(predicates));
-			return Ok(countries);
+			return Ok(country);
 		}
 
 		[HttpGet("capital/{capital}")]

@@ -8,12 +8,13 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Countries.Api.Logic.Countries.Queries;
 using Countries.Api.Logic.Regions.Queries;
+using Countries.Api.Utils.Interfaces;
 
 namespace Countries.Api.Controllers
 {
 	public class RegionsController : BaseController
 	{
-		public RegionsController(IMediator mediator) : base(mediator)
+		public RegionsController(IMediator mediator, ILinkProcessor processor) : base(mediator, processor)
 		{}
 
 		[HttpGet("regions")]

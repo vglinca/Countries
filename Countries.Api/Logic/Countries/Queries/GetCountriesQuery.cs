@@ -20,9 +20,9 @@ namespace Countries.Api.Logic.Countries.Queries
 	{
 		public PageArguments PageArgs { get; }
 		public SortingArguments SortingArgs { get; }
-		public FilterArguments FilterArgs { get; set; }
+		public List<FilterArguments> FilterArgs { get; set; }
 
-		public GetCountriesQuery(PageArguments pageArgs, SortingArguments sortingArgs, FilterArguments filterArgs)
+		public GetCountriesQuery(PageArguments pageArgs, SortingArguments sortingArgs, List<FilterArguments> filterArgs)
 		{
 			PageArgs = pageArgs;
 			SortingArgs = sortingArgs;
@@ -42,8 +42,8 @@ namespace Countries.Api.Logic.Countries.Queries
 		}
 		public async Task<PagedResponse<CountryModel>> Handle(GetCountriesQuery request, CancellationToken cancellationToken)
 		{
-			var filterArgs = new List<FilterArguments> { request.FilterArgs };
-			var pagedCountries = await _countriesRepository.GetAllAsync<Country>(request.PageArgs, request.SortingArgs, filterArgs, LogicalOperator.Or);
+			//var filterArgs = new List<FilterArguments> { request.FilterArgs };
+			var pagedCountries = await _countriesRepository.GetAllAsync<Country>(request.PageArgs, request.SortingArgs, request.FilterArgs, LogicalOperator.Or);
 			var models = _mapper.Map<List<CountryModel>>(pagedCountries.Items);
 			
 			var pagedResponse = new PagedResponse<CountryModel>

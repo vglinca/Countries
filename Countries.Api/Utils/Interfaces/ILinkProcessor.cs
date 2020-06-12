@@ -8,6 +8,6 @@ namespace Countries.Api.Utils.Interfaces
 {
 	public interface ILinkProcessor
 	{
-		string Process(ResourceParameters resourceParameters);
+		string ProcessLinksForCollection(ResourceParameters resourceParameters);
 	}
 }

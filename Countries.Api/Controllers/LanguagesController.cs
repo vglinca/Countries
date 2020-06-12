@@ -1,4 +1,5 @@
 ﻿using Countries.Api.Logic.Languages.Queries;
+using Countries.Api.Utils.Interfaces;
 using Countries.Core.Infrastructure;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +9,7 @@ namespace Countries.Api.Controllers
 {
 	public class LanguagesController : BaseController
 	{
-		public LanguagesController(IMediator mediator) : base(mediator)
+		public LanguagesController(IMediator mediator, ILinkProcessor processor) : base(mediator, processor)
 		{}
 
 		[HttpGet]
